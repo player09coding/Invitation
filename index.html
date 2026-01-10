@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Written in Destiny</title>
+
+<style>
+:root{
+  --her-name:"Lawyer Sahiba"; /* ✏️ CHANGE NAME HERE */
+}
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#000;
+  overflow:hidden;
+}
+
+/* Background */
+.bg{
+  position:fixed;
+  inset:0;
+  background:C:\Users\admin\Documents\Invitation\her-photo.jpg center/cover no-repeat;
+  filter:blur(9px) brightness(0.6);
+  z-index:-2;
+}
+.overlay{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle,#ffccbc55,#000000cc);
+  z-index:-1;
+}
+
+.container{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.96);
+  border-radius:30px;
+  padding:30px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 30px 70px rgba(0,0,0,.5);
+  animation:fade 1.5s;
+  position:relative;
+}
+
+h1{color:#bf360c;}
+p{font-size:18px;color:#444;line-height:1.6;}
+
+.name::after{
+  content:var(--her-name);
+  color:#e91e63;
+  font-weight:bold;
+}
+
+button{
+  padding:14px 34px;
+  border-radius:40px;
+  border:none;
+  font-size:17px;
+  margin:14px;
+  cursor:pointer;
+}
+
+.yes{
+  background:linear-gradient(45deg,#ff4081,#ff9100);
+  color:#fff;
+  box-shadow:0 8px 20px #ff408199;
+}
+
+.no{
+  background:#ddd;
+  color:#555;
+  position:absolute;
+}
+
+/* Animations */
+@keyframes fade{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;}
+}
+
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:22px;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:#ff4081;
+  border-radius:50%;
+  animation:explode 1s ease-out forwards;
+}
+@keyframes explode{
+  to{transform:scale(18);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_3f8fcb7a6a.mp3">
+</audio>
+
+<div class="container">
+
+<!-- PAGE 1 -->
+<div class="card" id="p1">
+<h1>🛕 A Sacred Journey 🛕</h1>
+<p>
+Dear <span class="name"></span> 🌸<br><br>
+With Maa Vaishno Devi’s blessings,<br>
+I wish to walk a soulful path 🙏<br><br>
+<strong>📅 25 Jan – 31 Jan</strong><br><br>
+Will you come with me?
+</p>
+<button class="yes" onclick="goValentine()">YES 💖</button>
+<button class="no" id="no1">NO 🙈</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card" id="p2" style="display:none;">
+<h1>💘 My Heart Asks 💘</h1>
+<p>
+Dear <span class="name"></span> 🌹<br><br>
+Between prayers, paths and moments…<br>
+my heart found its answer ❤️<br><br>
+Will you be <b>my Valentine</b><br>
+this year & always?
+</p>
+
+<button class="yes" onclick="valentineYes()">YES ❤️</button>
+<button class="no" id="no2">NO 🙈</button>
+</div>
+
+</div>
+
+<script>
+/* PAGE CHANGE */
+function goValentine(){
+  document.getElementById("p1").style.display="none";
+  document.getElementById("p2").style.display="block";
+  fireworks();
+  downloadCalendar();
+}
+
+/* VALENTINE YES → WHATSAPP */
+function valentineYes(){
+  fireworks();
+  const msg = encodeURIComponent(
+    "She said YES ❤️\nVaishno Devi trip confirmed 🛕\nAnd she is my Valentine 💖"
+  );
+  window.open("https://wa.me/917634946357?text="+msg,"_blank");
+}
+
+/* Fireworks */
+function fireworks(){
+  for(let i=0;i<20;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }
+}
+
+/* Calendar */
+function downloadCalendar(){
+  const ics=`BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Vaishno Devi Trip ❤️
+DTSTART:20260125T060000
+DTEND:20260131T200000
+DESCRIPTION:Sacred journey together
+END:VEVENT
+END:VCALENDAR`;
+  const blob=new Blob([ics],{type:"text/calendar"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="Vaishno_Devi_Trip.ics";
+  a.click();
+}
+
+/* NO BUTTONS RUN */
+function runaway(btn){
+  btn.style.left=Math.random()*(window.innerWidth-120)+"px";
+  btn.style.top=Math.random()*(window.innerHeight-120)+"px";
+}
+
+const no1=document.getElementById("no1");
+const no2=document.getElementById("no2");
+no1.addEventListener("mouseover",()=>runaway(no1));
+no1.addEventListener("touchstart",()=>runaway(no1));
+no2.addEventListener("mouseover",()=>runaway(no2));
+no2.addEventListener("touchstart",()=>runaway(no2));
+
+/* Hearts */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},450);
+</script>
+
+</body>
+</html>
