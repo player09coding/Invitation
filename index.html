@@ -51,5 +51,283 @@ body{
 .overlay{
   position:fixed;
   inset:0;
-  background:radial-gradient(circle
+  background:radial-gradient(circle,#ffccbc55,#000000dd);
+  z-index:-1;
+}
 
+.container{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.96);
+  border-radius:30px;
+  padding:30px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 30px 70px rgba(0,0,0,.5);
+  animation:fade 1.4s;
+  position:relative;
+}
+
+h1{color:#bf360c;}
+p{font-size:18px;color:#444;line-height:1.6;}
+
+.name::after{
+  content:var(--her-name);
+  color:#e91e63;
+  font-weight:bold;
+}
+
+.poem{
+  font-size:16px;
+  color:#555;
+  margin-top:20px;
+  line-height:1.7;
+  font-style:italic;
+}
+
+button{
+  padding:14px 34px;
+  border-radius:40px;
+  border:none;
+  font-size:17px;
+  margin:14px;
+  cursor:pointer;
+}
+
+.yes{
+  background:linear-gradient(45deg,#ff4081,#ff9100);
+  color:#fff;
+  box-shadow:0 8px 22px #ff408199;
+}
+
+.no{
+  background:#ddd;
+  color:#555;
+  position:absolute;
+}
+
+/* Animations */
+@keyframes fade{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;}
+}
+
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:22px;
+  animation:float 6s linear infinite;
+}
+
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:#ff4081;
+  border-radius:50%;
+  animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+  to{transform:scale(18);opacity:0;}
+}
+
+/* Ring */
+#ring{
+  display:none;
+  font-size:80px;
+  animation:ringPop 1.5s infinite alternate;
+}
+
+@keyframes ringPop{
+  from{transform:scale(1);}
+  to{transform:scale(1.2);}
+}
+
+/* Stars */
+.star{
+  position:absolute;
+  color:white;
+  font-size:12px;
+  animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+  from{opacity:.3;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<button id="modeToggle">🌙</button>
+
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_3f8fcb7a6a.mp3">
+</audio>
+
+<div class="container">
+
+<!-- PAGE 1 -->
+<div class="card" id="p1">
+<h1>🛕 A Sacred Journey 🛕</h1>
+<p>
+Dear <span class="name"></span> 🌸<br><br>
+With Maa Vaishno Devi’s blessings,<br>
+I wish to walk a soulful path 🙏<br><br>
+<strong>📅 25 Jan – 31 Jan</strong><br><br>
+Will you come with me?
+</p>
+<button class="yes" onclick="goValentine()">YES 💖</button>
+<button class="no" id="no1">NO 🙈</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card" id="p2" style="display:none;">
+<h1>💘 Written in Destiny 💘</h1>
+
+<p>
+Dear <span class="name"></span> 🌹<br><br>
+Will you be <b>my Valentine</b><br>
+this year & always?
+</p>
+
+<div class="poem">
+Rashmi Kunwar,<br>
+Like the first prayer at dawn,<br>
+you entered my life quietly,<br>
+and suddenly everything felt right.<br><br>
+
+Between temple bells and heartbeats,<br>
+between mountains and moments,<br>
+I found my peace in you.<br><br>
+
+Some journeys are planned,<br>
+some are blessed,<br>
+but the most beautiful one<br>
+is the path that leads to your smile.<br><br>
+
+If destiny ever asked me again,<br>
+I would still choose you —<br>
+in every lifetime,<br>
+in every prayer,<br>
+in every forever.<br><br>
+
+This is not just a trip,<br>
+not just a Valentine,<br>
+this is my heart asking yours<br>
+to walk beside it.
+</div>
+
+<button class="yes" onclick="valentineYes()">YES ❤️</button>
+<button class="no" id="no2">NO 🙈</button>
+
+<div id="ring">💍</div>
+</div>
+
+</div>
+
+<script>
+function goValentine(){
+  p1.style.display="none";
+  p2.style.display="block";
+  fireworks();
+  downloadCalendar();
+}
+
+function valentineYes(){
+  fireworks();
+  stars();
+  ring.style.display="block";
+  if(navigator.vibrate) navigator.vibrate([200,100,200]);
+
+  const msg = encodeURIComponent(
+    "Rashmi Kunwar said YES ❤️\nVaishno Devi trip confirmed 🛕\nShe is my Valentine 💖"
+  );
+  window.open("https://wa.me/917634946357?text="+msg,"_blank");
+}
+
+function fireworks(){
+  for(let i=0;i<25;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }
+}
+
+function downloadCalendar(){
+  const ics=`BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Vaishno Devi Trip ❤️
+DTSTART:20260125T060000
+DTEND:20260131T200000
+END:VEVENT
+END:VCALENDAR`;
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));
+  a.download="Vaishno_Devi_Trip.ics";
+  a.click();
+}
+
+function stars(){
+  let text="RASHMI KUNWAR";
+  let x=20;
+  for(let c of text){
+    let s=document.createElement("div");
+    s.className="star";
+    s.innerText=c===" "?"":"★";
+    s.style.left=x+"px";
+    s.style.top="20px";
+    document.body.appendChild(s);
+    x+=15;
+  }
+}
+
+function runaway(btn){
+  btn.style.left=Math.random()*(window.innerWidth-120)+"px";
+  btn.style.top=Math.random()*(window.innerHeight-120)+"px";
+}
+
+no1.onmouseover=()=>runaway(no1);
+no2.onmouseover=()=>runaway(no2);
+
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},450);
+
+let night=true;
+modeToggle.onclick=()=>{
+  night=!night;
+  document.querySelector(".bg").style.filter =
+    night ? "brightness(0.75) contrast(1.05) saturate(1.2)"
+          : "brightness(1) contrast(1) saturate(1)";
+  modeToggle.innerText=night?"🌙":"🌞";
+};
+</script>
+
+</body>
+</html>
