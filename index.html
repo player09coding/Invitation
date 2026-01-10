@@ -7,7 +7,7 @@
 
 <style>
 :root{
-  --her-name:"Lawyer Sahiba"; /* ✏️ CHANGE NAME HERE */
+  --her-name:"Lawyer Sahiba";
 }
 
 body{
@@ -21,14 +21,14 @@ body{
 .bg{
   position:fixed;
   inset:0;
-  background:C:\Users\admin\Documents\Invitation\her-photo.jpg center/cover no-repeat;
-  filter:blur(9px) brightness(0.6);
+  background:url('her-photo.jpg') center/cover no-repeat;
+  filter:blur(10px) brightness(0.55);
   z-index:-2;
 }
 .overlay{
   position:fixed;
   inset:0;
-  background:radial-gradient(circle,#ffccbc55,#000000cc);
+  background:radial-gradient(circle,#ffccbc55,#000000dd);
   z-index:-1;
 }
 
@@ -48,7 +48,7 @@ body{
   width:100%;
   text-align:center;
   box-shadow:0 30px 70px rgba(0,0,0,.5);
-  animation:fade 1.5s;
+  animation:fade 1.4s;
   position:relative;
 }
 
@@ -73,7 +73,7 @@ button{
 .yes{
   background:linear-gradient(45deg,#ff4081,#ff9100);
   color:#fff;
-  box-shadow:0 8px 20px #ff408199;
+  box-shadow:0 8px 22px #ff408199;
 }
 
 .no{
@@ -109,6 +109,29 @@ button{
 @keyframes explode{
   to{transform:scale(18);opacity:0;}
 }
+
+/* Ring */
+#ring{
+  display:none;
+  font-size:80px;
+  animation:ringPop 1.5s infinite alternate;
+}
+@keyframes ringPop{
+  from{transform:scale(1);}
+  to{transform:scale(1.2);}
+}
+
+/* Stars name */
+.star{
+  position:absolute;
+  color:white;
+  font-size:12px;
+  animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+  from{opacity:.3;}
+  to{opacity:1;}
+}
 </style>
 </head>
 
@@ -142,20 +165,21 @@ Will you come with me?
 <h1>💘 My Heart Asks 💘</h1>
 <p>
 Dear <span class="name"></span> 🌹<br><br>
-Between prayers, paths and moments…<br>
-my heart found its answer ❤️<br><br>
+Between prayers and moments,<br>
+my heart found its forever ❤️<br><br>
 Will you be <b>my Valentine</b><br>
 this year & always?
 </p>
 
 <button class="yes" onclick="valentineYes()">YES ❤️</button>
 <button class="no" id="no2">NO 🙈</button>
+
+<div id="ring">💍</div>
 </div>
 
 </div>
 
 <script>
-/* PAGE CHANGE */
 function goValentine(){
   document.getElementById("p1").style.display="none";
   document.getElementById("p2").style.display="block";
@@ -163,18 +187,22 @@ function goValentine(){
   downloadCalendar();
 }
 
-/* VALENTINE YES → WHATSAPP */
+/* Valentine YES */
 function valentineYes(){
   fireworks();
+  stars();
+  document.getElementById("ring").style.display="block";
+  if(navigator.vibrate) navigator.vibrate([200,100,200]);
+
   const msg = encodeURIComponent(
-    "She said YES ❤️\nVaishno Devi trip confirmed 🛕\nAnd she is my Valentine 💖"
+    "Rashmi Kunwar said YES ❤️\nVaishno Devi trip confirmed 🛕\nShe is my Valentine 💖"
   );
   window.open("https://wa.me/917634946357?text="+msg,"_blank");
 }
 
 /* Fireworks */
 function fireworks(){
-  for(let i=0;i<20;i++){
+  for(let i=0;i<25;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.left=Math.random()*100+"vw";
@@ -192,7 +220,6 @@ BEGIN:VEVENT
 SUMMARY:Vaishno Devi Trip ❤️
 DTSTART:20260125T060000
 DTEND:20260131T200000
-DESCRIPTION:Sacred journey together
 END:VEVENT
 END:VCALENDAR`;
   const blob=new Blob([ics],{type:"text/calendar"});
@@ -202,7 +229,22 @@ END:VCALENDAR`;
   a.click();
 }
 
-/* NO BUTTONS RUN */
+/* Stars spell name */
+function stars(){
+  const text="RASHMI KUNWAR";
+  let x=20;
+  for(let c of text){
+    let s=document.createElement("div");
+    s.className="star";
+    s.innerHTML=c===" "?"&nbsp;":"★";
+    s.style.left=x+"px";
+    s.style.top="20px";
+    document.body.appendChild(s);
+    x+=15;
+  }
+}
+
+/* NO buttons run */
 function runaway(btn){
   btn.style.left=Math.random()*(window.innerWidth-120)+"px";
   btn.style.top=Math.random()*(window.innerHeight-120)+"px";
@@ -210,10 +252,8 @@ function runaway(btn){
 
 const no1=document.getElementById("no1");
 const no2=document.getElementById("no2");
-no1.addEventListener("mouseover",()=>runaway(no1));
-no1.addEventListener("touchstart",()=>runaway(no1));
-no2.addEventListener("mouseover",()=>runaway(no2));
-no2.addEventListener("touchstart",()=>runaway(no2));
+no1.onmouseover=()=>runaway(no1);
+no2.onmouseover=()=>runaway(no2);
 
 /* Hearts */
 setInterval(()=>{
