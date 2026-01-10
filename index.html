@@ -17,14 +17,37 @@ body{
   overflow:hidden;
 }
 
+/* Day / Night Toggle */
+#modeToggle{
+  position:fixed;
+  top:15px;
+  right:15px;
+  z-index:10;
+  border:none;
+  border-radius:50%;
+  width:48px;
+  height:48px;
+  font-size:20px;
+  cursor:pointer;
+  background:rgba(255,255,255,0.85);
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+
 /* Background */
 .bg{
   position:fixed;
   inset:0;
   background:url('her-photo.jpg') center/cover no-repeat;
-  filter:brightness(0.6);
+  filter: brightness(0.75) contrast(1.05) saturate(1.2);
+  animation: cinematicZoom 30s ease-in-out infinite alternate;
   z-index:-2;
 }
+
+@keyframes cinematicZoom{
+  from{ transform: scale(1); }
+  to{ transform: scale(1.08); }
+}
+
 .overlay{
   position:fixed;
   inset:0;
@@ -94,6 +117,7 @@ button{
   font-size:22px;
   animation:float 6s linear infinite;
 }
+
 @keyframes float{
   to{transform:translateY(-120vh);opacity:0;}
 }
@@ -106,6 +130,7 @@ button{
   border-radius:50%;
   animation:explode 1s ease-out forwards;
 }
+
 @keyframes explode{
   to{transform:scale(18);opacity:0;}
 }
@@ -116,18 +141,20 @@ button{
   font-size:80px;
   animation:ringPop 1.5s infinite alternate;
 }
+
 @keyframes ringPop{
   from{transform:scale(1);}
   to{transform:scale(1.2);}
 }
 
-/* Stars name */
+/* Stars */
 .star{
   position:absolute;
   color:white;
   font-size:12px;
   animation:twinkle 2s infinite alternate;
 }
+
 @keyframes twinkle{
   from{opacity:.3;}
   to{opacity:1;}
@@ -136,6 +163,8 @@ button{
 </head>
 
 <body>
+
+<button id="modeToggle">🌙</button>
 
 <div class="bg"></div>
 <div class="overlay"></div>
@@ -165,8 +194,8 @@ Will you come with me?
 <h1>💘 My Heart Asks 💘</h1>
 <p>
 Dear <span class="name"></span> 🌹<br><br>
-Between prayers and moments,<br>
-my heart found its forever ❤️<br><br>
+Between prayers and heartbeats,<br>
+my forever found its name ❤️<br><br>
 Will you be <b>my Valentine</b><br>
 this year & always?
 </p>
@@ -180,9 +209,10 @@ this year & always?
 </div>
 
 <script>
+/* Page switch */
 function goValentine(){
-  document.getElementById("p1").style.display="none";
-  document.getElementById("p2").style.display="block";
+  p1.style.display="none";
+  p2.style.display="block";
   fireworks();
   downloadCalendar();
 }
@@ -191,7 +221,7 @@ function goValentine(){
 function valentineYes(){
   fireworks();
   stars();
-  document.getElementById("ring").style.display="block";
+  ring.style.display="block";
   if(navigator.vibrate) navigator.vibrate([200,100,200]);
 
   const msg = encodeURIComponent(
@@ -222,21 +252,20 @@ DTSTART:20260125T060000
 DTEND:20260131T200000
 END:VEVENT
 END:VCALENDAR`;
-  const blob=new Blob([ics],{type:"text/calendar"});
   const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
+  a.href=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));
   a.download="Vaishno_Devi_Trip.ics";
   a.click();
 }
 
-/* Stars spell name */
+/* Stars */
 function stars(){
-  const text="RASHMI KUNWAR";
+  let text="RASHMI KUNWAR";
   let x=20;
   for(let c of text){
     let s=document.createElement("div");
     s.className="star";
-    s.innerHTML=c===" "?"&nbsp;":"★";
+    s.innerText=c===" "?"":"★";
     s.style.left=x+"px";
     s.style.top="20px";
     document.body.appendChild(s);
@@ -244,14 +273,12 @@ function stars(){
   }
 }
 
-/* NO buttons run */
+/* NO button runaway */
 function runaway(btn){
   btn.style.left=Math.random()*(window.innerWidth-120)+"px";
   btn.style.top=Math.random()*(window.innerHeight-120)+"px";
 }
 
-const no1=document.getElementById("no1");
-const no2=document.getElementById("no2");
 no1.onmouseover=()=>runaway(no1);
 no2.onmouseover=()=>runaway(no2);
 
@@ -264,8 +291,17 @@ setInterval(()=>{
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),6000);
 },450);
+
+/* Day / Night toggle */
+let night=true;
+modeToggle.onclick=()=>{
+  night=!night;
+  document.querySelector(".bg").style.filter =
+    night ? "brightness(0.75) contrast(1.05) saturate(1.2)"
+          : "brightness(1) contrast(1) saturate(1)";
+  modeToggle.innerText=night?"🌙":"🌞";
+};
 </script>
 
 </body>
 </html>
-
